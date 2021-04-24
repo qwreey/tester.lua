@@ -1,17 +1,41 @@
-local qtest = require("qtest"):init("unnamed test");
+local _ = require("qtest"):init("unnamed test");
+_.run(print);
 
-qtest.thing("luvit",function ()
-    qtest.it("has string library?",function ()
-        qtest.test.isExist(string);
+_.thing("luvit",function ()
+    _.it("has string library?",function ()
+        _.test.isExist(string);
     end);
 
-    qtest.it("has utf8 library?",function ()
-        qtest.test.isExist(utf8);
+    _.it("has utf8 library?",function ()
+        _.test.isExist(utf8);
     end);
 
-    qtest.it("is jit?",function ()
-        qtest.test.isExist(jit);
+    _.it("is jit?",function ()
+        _.test.isExist(jit); ---@diagnostic disable-line:undefined-global
+    end);
+
+    _.it("is py?",function ()
+        _.test.isExist(nil);
+    end)
+
+    _.thing("table lib",function ()
+        _.it("has remove?",function ()
+            _.test.isExist(table.remove);
+            _.global.hello = "Hello"; -- you can use global table
+        end);
     end);
 end);
 
-qtest.results(print);
+_.thing("just a test",function ()
+    _.it("asdf",function ()
+        _.test.nop();
+    end);
+    --[[
+    _.it("asdfasdf",function ()
+        _.test.hasError(function ()
+            error("ERROR");
+        end);
+    end);]]
+end);
+
+_.results(print);

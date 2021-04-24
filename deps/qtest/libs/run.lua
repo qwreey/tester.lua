@@ -1,12 +1,16 @@
 local module = {};
-local private;
 
-function module:init(nprivate)
-    private = nprivate;
-    return function (...)
-        local tests = {...};
-        for index,test in pairs(tests) do
-        end
+function module:init(private)
+    local termColor = require("termColor");
+    local green = termColor.new(termColor.names.green);
+
+    return function (print)
+        print("----------------------------------------");
+        print(green("Time") .. " : " .. os.date());
+        print(green("TestName") .. " : " .. private.testProfile .. "\n");
+        private.print = print;
+        private.isRunning = true;
+        return;
     end;
 end
 

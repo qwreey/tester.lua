@@ -3,36 +3,87 @@ local module = {};
 
 --머리터짐
 function module:init(private)
-    local this = {}
+    local this = {};
 
-    function module.isBoolean(thing)
-        return type(thing) == "boolean";
+    local function test(isPass)
+        if not private.nowThing then
+
+        elseif not private.isRunning then
+
+        elseif not private.nowIt then
+
+        end
+
+        if isPass then
+            private.nowIt.pass =
+                private.nowIt.pass + 1;
+        else -- when failed
+            if private.nowIt.isPass then
+                private.nowThing.__thing__.itPass =
+                    private.nowThing.__thing__.itPass - 1;
+                private.nowThing.__thing__.itFail =
+                    private.nowThing.__thing__.itFail + 1;
+            end
+            private.nowThing.__thing__.isPass = false;
+            private.nowIt.isPass = false;
+            private.nowIt.fail =
+                private.nowIt.fail + 1;
+        end
+
+        return isPass;
     end
 
-    function module.isNumber(thing)
-        return type(thing) == "number";
+    -- check the thing is boolean
+    function this.isBoolean(thing)
+        return test(
+            type(thing) == "boolean"
+        );
     end
 
-    function module.isString(thing)
-        return type(thing) == "string";
+    -- check the thing is number
+    function this.isNumber(thing)
+        return test(
+            type(thing) == "number"
+        );
     end
 
-    function module.isTable(thing)
-        return type(thing) == "table";
+    -- check the thing is string
+    function this.isString(thing)
+        return test(
+            type(thing) == "string"
+        );
     end
 
-    function module.isFunction(thing)
-        return type(thing) == "function";
+    -- check the thing is table
+    function this.isTable(thing)
+        return test(
+            type(thing) == "table"
+        );
     end
 
-    function module.isExist(thing)
-        return thing ~= nil;
+    -- check the this is function
+    function this.isFunction(thing)
+        return test(
+            type(thing) == "function"
+        );
     end
 
-    function module.hasError(func,...)
-        local pass,errmsg = pcall( func(...) );
+    -- check the thing is not nil
+    function this.isExist(thing)
+        return test(
+            thing ~= nil
+        );
+    end
 
-        return;
+    -- run function and cahtches error
+    function this.checkError(func,...)
+        local pass = pcall( func(...) );
+        return test(pass);
+    end
+
+    -- nothing do
+    function this.nop()
+        return test(true);
     end
 
     return this;
