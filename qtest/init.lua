@@ -12,12 +12,13 @@ function module:init(testProfile)
     };
 
     return {
+        util = require("util");
+        global = private.global;
+
         it = (require("it"):init(private));
         describe = (require("describe"):init(private));
         test = (require("test"):init(private));
-        global = (require("global"):init(private));
         logger = (require("logger"):init(private));
-        util = (require("util"):init(private));
         results = (require("results"):init(private));
         run = (require("run"):init(private));
     };

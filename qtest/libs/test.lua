@@ -10,8 +10,8 @@ function module.isBoolean(thing)
 
 end
 
-function module.is()
-
+function module.isExist(thing)
+    return thing ~= nil;
 end
 
 function module.hasError(func,...)
