@@ -3,6 +3,7 @@ local module = {};
 function module:init(private)
     local testStack = private.testStack; -- test stack holder
     local status = private.status; -- test status holder
+    local logger = private.logger;
 
     local function typeCheck(testThing,runFunc)
         local typeTestThing = type(testThing);
@@ -23,15 +24,23 @@ function module:init(private)
     ---@return nil void
     return function(testThingName,runFunc) -- add test stack function
         typeCheck(testThingName,runFunc); -- check args
-        local nowStatus = {}; -- make status table
+
+        -- status table init
+        local nowStatus = {__i = {}}; -- make status table
         status[testThingName] = nowStatus; -- add status table
         private.nowStatus = nowStatus; -- set status to now status
-        local lastTest = testStack[1]; -- get last test range
-        table.insert(private.testStack,testThingName); -- add stack (this)
-        private.testNow = testStack; -- set test range to this
-        runFunc(testThingName); -- run test
-        private.testNow = lastTest; -- set test range to last
-        table.remove(private.testStack); -- remove stack (this)
+
+        -- test thing handle
+        local lastTest = private.nowStatus; -- get last test thing
+        private.testNow = testStack; -- set test thing to this
+
+        -- run test
+        local pass,errmsg = pcall(runFunc(testThingName)); -- run test
+        if pass then
+            nowStatus.__i.hasError = true;
+            
+        end
+        private.testNow = lastTest; -- set test thing to last
         return; -- return
     end;
 end
