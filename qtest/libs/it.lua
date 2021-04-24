@@ -1,19 +1,15 @@
 local module = {};
 local private,global;
 
-local function typeCheck(description,testFunc)
-    
-end
+function module:init(private)
+    local global = private.global;
 
-function module:init(nprivate)
-    private = nprivate;
-    global = private.global;
+    local function typeCheck(description,testFunc)
+    end
 
     return function (description,testFunc)
         private.it = description;
-        
         testFunc(global);
-
     end;
 end
 

@@ -19,6 +19,7 @@ function module:init(testProfile)
         logger = (require("logger"):init(private));
         util = (require("util"):init(private));
         results = (require("results"):init(private));
+        run = (require("run"):init(private));
     };
 end
 
