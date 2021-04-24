@@ -18,6 +18,7 @@ function module:init(testProfile)
         global = (require("global"):init(private));
         logger = (require("logger"):init(private));
         util = (require("util"):init(private));
+        results = (require("results"):init(private));
     };
 end
 
