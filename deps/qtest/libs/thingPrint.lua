@@ -1,6 +1,7 @@
 local thingText = "%sThing '%s'";
 local itText = "%s%%s %s%%%%s | %%%%s%%%%%%%%s | %%%%%%%%s";
-local tab = string.rep("\32",4);
+local itMsg = "%s%s"
+local tab = " |  ";
 local tree = " |- ";
 local none = ""
 
@@ -23,6 +24,7 @@ local function thingPrint(print,thing,DEEP,printTable)
     -- item
     for _,it in ipairs(thing) do
         local new = {
+            type = "itItem";
             text = itText:format(
                 string.rep(tab,DEEP) .. tree,
                 it.name
@@ -35,8 +37,12 @@ local function thingPrint(print,thing,DEEP,printTable)
         if printTable.longest < len then
             printTable.longest = len;
         end
-        
+
         table.insert(printTable,new);
+
+        for _,text in pairs(it.say) do
+            table.insert(printTable,itMsg:format(string.rep(tab,DEEP+1) .. tree,text));
+        end
     end
 
     for _,childThing in ipairs(thing.__children__) do

@@ -64,6 +64,7 @@ function module:init(private)
         -- run test func
         local pass,errmsg = pcall(runFunc); -- run test
         if not pass then
+            errmsg = errmsg or "none";
             thisThing.__thing__.hasErrorOnTesting = true;
             thisThing.__thing__.pass = false;
             thisThing.__thing__.errmsg = errmsg;
