@@ -2,7 +2,8 @@ local module = {};
 
 local testItemMT = {};
 function testItemMT:say(funcOrStr)
-    local debug = debug.getinfo(2);
+    local debug = self.thisIt.debugInfo or debug.getinfo(2);
+    self.thisIt.debugInfo = debug;
     table.insert(
         self.thisIt.say,
         ("[MSG Line : %d] %s"):format(
@@ -29,22 +30,22 @@ function module:init(private)
     local red = termColor.new(termColor.names.red);
 
     local function test(isPass)
-        if not private.nowThing then
-            private.print(red("[ERROR]" .. " thing is not exist!"));
-            waitForEnter();
-        elseif not private.isRunning then
+        local nowIt = private.nowIt;
+
+        if not private.isRunning then
             private.print(red("[ERROR]" .. " test is not running!"));
             waitForEnter();
-        elseif not private.nowIt then
+        elseif not nowIt then
             private.print(red("[ERROR]" .. " it is not exist!"));
             waitForEnter();
         end
 
         if isPass then
-            private.nowIt.pass = private.nowIt.pass + 1
-        else 
-            private.nowIt.fail = private.nowIt.fail + 1
-            private.nowIt.isPass = false;
+            nowIt.pass = nowIt.pass + 1;
+        else
+            nowIt.fail = nowIt.fail + 1;
+            nowIt.isPass = false;
+            nowIt.debugInfo = nowIt.debugInfo or debug.getinfo(2);
         end
 
         local testItem = {

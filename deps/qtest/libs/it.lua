@@ -9,7 +9,7 @@ function module:init(private)
 
     local function typeCheck(itName,testFunc)
         if not private.isRunning then
-            (private.print or print)(red("[WARN]") .. "Test is not running! qtest.run(print); first for run test!");
+            (private.print or print)(red("[WARN]") .. " Test is not running! qtest.run(print); first for run test!");
             waitForEnter();
         end
 
@@ -34,7 +34,7 @@ function module:init(private)
         local nowThing = private.nowThing;
 
         -- make it
-        local nowIt = {isPass = true,pass = 0,fail = 0,name = itName,say = {}}; -- make new it
+        local nowIt = {debugInfo = nil,isPass = true,pass = 0,fail = 0,name = itName,say = {}}; -- make new it
         private.nowIt = nowIt; -- set now it to this it
         nowThing[#nowThing + 1] = nowIt; -- set parent of it
         nowThing.__thing__.itPass = nowThing.__thing__.itPass + 1;

@@ -1,4 +1,7 @@
-local _ = require("qtest"):init("unnamed test");
+local _ = require("qtest"):init({
+    profileName = "unnamed test";
+    fixPath = true;
+});
 _.run(print);
 
 _.thing("luvit",function ()

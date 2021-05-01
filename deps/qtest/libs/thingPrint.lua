@@ -10,8 +10,8 @@ local red = termColor.new(termColor.names.red);
 local green = termColor.new(termColor.names.green);
 local itPassText = green("[PASS]");
 local itFailText = red("[FAIL]");
-local thingPassText = green("--- Test passed! (Total it passed : %d)\n");
-local thingFailText = red("--- Test failed! (Total it failed : %d)\n");
+local thingPassText = green("--- Test passed! (Total it passed : %d)");
+local thingFailText = red("--- Test failed! (Total it failed : %d)");
 
 local function thingPrint(print,thing,DEEP,printTable)
     DEEP = DEEP or 0;
@@ -54,6 +54,7 @@ local function thingPrint(print,thing,DEEP,printTable)
             (thingPassText:format(thing.__thing__.itPass)) or
             (thingFailText:format(thing.__thing__.itFail))
         );
+        table.insert(printTable,"");
         local longestCountTextLen = 0;
         for i,v in ipairs(printTable) do
             if i ~= 1 and i ~= #printTable and type(v) == "table" then

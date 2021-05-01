@@ -6,8 +6,12 @@
 local module = {};
 
 function module:init(testProfile)
+    if testProfile.fixPath then
+        package.path = package.path .. ".\\deps\\?.lua;.\\deps\\?\\init.lua;.\\deps\\qtest\\libs\\?.lua";
+    end
+
     local private = {
-        testProfile = testProfile; -- this test name
+        testProfile = testProfile.profileName; -- this test name
         nowThing = nil;
         nowIt = nil;
         status = {};
@@ -24,7 +28,6 @@ function module:init(testProfile)
     --private.logger = require("logger"):init(private);
 
     return {
-        util = require("util");
         global = private.global;
         waitForEnter = private.waitForEnter;
 

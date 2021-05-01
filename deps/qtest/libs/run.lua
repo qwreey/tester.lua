@@ -5,9 +5,11 @@ function module:init(private)
     local green = termColor.new(termColor.names.green);
 
     return function (print)
+        print = print or private.print;
         print("-----------------------------------------------");
         print(green("Time") .. " : " .. os.date());
-        print(green("TestName") .. " : " .. private.testProfile .. "\n");
+        print(green("TestName") .. " : " .. private.testProfile);
+        print("");
         private.print = print;
         private.isRunning = true;
         return;
