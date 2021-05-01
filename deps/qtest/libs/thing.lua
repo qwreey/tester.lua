@@ -88,7 +88,7 @@ function module:init(private)
             lastThing.__thing__.itFail = lastThing.__thing__.itFail + thisThing.__thing__.itFail;
         else
             -- print thing status
-            private.totalItPass = private.totalItPass + thisThing.__thing__.isPass;
+            private.totalItPass = private.totalItPass + thisThing.__thing__.itPass;
             private.totalItFail = private.totalItFail + thisThing.__thing__.itFail;
             thingPrint(private.print,thisThing);
         end
