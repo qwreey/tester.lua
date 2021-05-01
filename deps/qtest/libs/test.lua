@@ -1,7 +1,6 @@
 local module = {};
 
 local testItemMT = {};
-
 function testItemMT:say(funcOrStr)
     local debug = debug.getinfo(2);
     table.insert(
@@ -11,6 +10,13 @@ function testItemMT:say(funcOrStr)
             (type(funcOrStr) == "string" and funcOrStr or (funcOrStr(self)))
         )
     );
+    return self;
+end
+
+function testItemMT:failMsg(funcOrStr)
+    if not self.value then
+        return self:say(funcOrStr);
+    end
     return self;
 end
 testItemMT.__index = testItemMT;
@@ -35,19 +41,10 @@ function module:init(private)
         end
 
         if isPass then
-            private.nowIt.pass =
-                private.nowIt.pass + 1;
-        else -- when failed
-            if private.nowIt.isPass then
-                private.nowThing.__thing__.itPass =
-                    private.nowThing.__thing__.itPass - 1;
-                private.nowThing.__thing__.itFail =
-                    private.nowThing.__thing__.itFail + 1;
-            end
-            private.nowThing.__thing__.isPass = false;
+            private.nowIt.pass = private.nowIt.pass + 1
+        else 
+            private.nowIt.fail = private.nowIt.fail + 1
             private.nowIt.isPass = false;
-            private.nowIt.fail =
-                private.nowIt.fail + 1;
         end
 
         local testItem = {

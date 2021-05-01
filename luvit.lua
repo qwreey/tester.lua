@@ -29,7 +29,7 @@ _.thing("luvit",function ()
             _.global.hello = "Hello"; -- you can use global table
         end);
         _.it("fail",function ()
-            _.test.isExist(nil):say("test say");
+            _.test.isExist(nil):failMsg("test say");
         end);
         --error("asdf");
     end);

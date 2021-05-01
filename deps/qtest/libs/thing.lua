@@ -75,12 +75,19 @@ function module:init(private)
             waitForEnter();
         end
 
-        -- print thing status
+        -- set total thing pass/fail
+        if lastThing.__thing__.isPass then
+            private.totalThingPass = private.totalThingPass + 1;
+        else
+            private.totalThingFail = private.totalThingFail + 1;
+        end
         if lastThing then
+            -- set parent status
             lastThing.__thing__.isPass = lastThing.__thing__.isPass and thisThing.__thing__.isPass;
             lastThing.__thing__.itPass = lastThing.__thing__.itPass + thisThing.__thing__.itPass;
             lastThing.__thing__.itFail = lastThing.__thing__.itFail + thisThing.__thing__.itFail;
         else
+            -- print thing status
             thingPrint(private.print,thisThing);
         end
 

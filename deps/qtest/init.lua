@@ -6,6 +6,8 @@ function module:init(testProfile)
         nowThing = nil;
         nowIt = nil;
         status = {};
+        totalThingFail = 0; -- total it fail
+        totalThingPass = 0; -- total it pass
 
         global = {};
         print = nil;

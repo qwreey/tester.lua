@@ -49,6 +49,14 @@ function module:init(private)
         end
         local ed = clock();
         nowIt.time = math.floor((ed - st)*10000)/10000;
+
+        -- set thing pass/fail
+        if not nowIt.isPass then
+            nowThing.__thing__.isPass = false;
+        end
+        nowThing.__thing__.itPass = nowThing.__thing__.itPass + nowIt.pass;
+        nowThing.__thing__.itFail = nowThing.__thing__.itFail + nowIt.fail;
+
         private.nowIt = nil;
         return;
     end;
