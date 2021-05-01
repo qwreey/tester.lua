@@ -1,3 +1,8 @@
+--[[
+    write : qwreey
+    var : Public release 1
+]]
+
 local module = {};
 
 function module:init(testProfile)
