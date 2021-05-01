@@ -34,7 +34,10 @@ function module:init(private)
         local nowThing = private.nowThing;
 
         -- make it
-        local nowIt = {debugInfo = nil,isPass = true,pass = 0,fail = 0,name = itName,say = {}}; -- make new it
+        local nowIt = {
+            debugInfos = {thingName = nowThing.__thing__.name,itName = itName},
+            isPass = true,pass = 0,fail = 0,name = itName,say = {}
+        }; -- make new it
         private.nowIt = nowIt; -- set now it to this it
         nowThing[#nowThing + 1] = nowIt; -- set parent of it
         nowThing.__thing__.itPass = nowThing.__thing__.itPass + 1;
@@ -43,8 +46,7 @@ function module:init(private)
         local pass,errmsg = pcall(testFunc); -- call it
         if not pass then
             private.print(red("[ERROR] ") .. errmsg);
-            private.print(red("[ERROR]") .. (" run error occur on testing it '%s' ... continue?")
-                :format(itName));
+            private.print(red("[ERROR]") .. (" run error occur on testing it '%s' ... continue?"):format(itName));
             waitForEnter();
         end
         local ed = clock();

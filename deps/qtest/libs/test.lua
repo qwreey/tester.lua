@@ -1,9 +1,10 @@
 local module = {};
 
+-- CLASS : testItem
 local testItemMT = {};
 function testItemMT:say(funcOrStr)
-    local debug = self.thisIt.debugInfo or debug.getinfo(2);
-    self.thisIt.debugInfo = debug;
+    local debug = self.debugInfo or debug.getinfo(2);
+    self.debugInfo = debug;
     table.insert(
         self.thisIt.say,
         ("[MSG Line : %d] %s"):format(
@@ -22,6 +23,7 @@ function testItemMT:failMsg(funcOrStr)
 end
 testItemMT.__index = testItemMT;
 
+-- CLASS : module
 function module:init(private)
     local this = {};
 
@@ -31,6 +33,7 @@ function module:init(private)
 
     local function test(isPass)
         local nowIt = private.nowIt;
+        local debugInfo;
 
         if not private.isRunning then
             private.print(red("[ERROR]" .. " test is not running!"));
@@ -45,10 +48,12 @@ function module:init(private)
         else
             nowIt.fail = nowIt.fail + 1;
             nowIt.isPass = false;
-            nowIt.debugInfo = nowIt.debugInfo or debug.getinfo(2);
+            debugInfo = debug.getinfo(2);
+            table.insert(nowIt.debugInfos,debugInfo);
         end
 
         local testItem = {
+            debugInfo = debugInfo;
             value = isPass;
             thisIt = private.nowIt;
         };

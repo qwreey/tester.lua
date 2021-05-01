@@ -20,6 +20,7 @@ function module:init(testProfile)
         totalThingFail = 0; -- total thing fail
         totalThingPass = 0; -- total thing pass
 
+        files = {};
         global = {};
         print = nil;
         isRunning = false;
