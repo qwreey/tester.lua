@@ -76,7 +76,7 @@ function module:init(private)
         end
 
         -- set total thing pass/fail
-        if lastThing.__thing__.isPass then
+        if thisThing.__thing__.isPass then
             private.totalThingPass = private.totalThingPass + 1;
         else
             private.totalThingFail = private.totalThingFail + 1;
@@ -88,6 +88,8 @@ function module:init(private)
             lastThing.__thing__.itFail = lastThing.__thing__.itFail + thisThing.__thing__.itFail;
         else
             -- print thing status
+            private.totalItPass = private.totalItPass + thisThing.__thing__.isPass;
+            private.totalItFail = private.totalItFail + thisThing.__thing__.itFail;
             thingPrint(private.print,thisThing);
         end
 
