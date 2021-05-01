@@ -19,9 +19,17 @@ _.thing("luvit",function ()
     end)
 
     _.thing("table lib",function ()
+        _.thing("test",function ()
+            _.it("fail",function ()
+                _.test.isExist(nil);
+            end);
+        end);
         _.it("has remove?",function ()
             _.test.isExist(table.remove);
             _.global.hello = "Hello"; -- you can use global table
+        end);
+        _.it("fail",function ()
+            _.test.isExist(nil);
         end);
     end);
 end);

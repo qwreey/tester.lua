@@ -50,7 +50,7 @@ local function thingPrint(print,thing,DEEP,printTable)
         );
         local longestCountTextLen = 0;
         for i,v in ipairs(printTable) do
-            if i ~= 1 and i ~= #printTable then
+            if i ~= 1 and i ~= #printTable and type(v) == "table" then
                 local isPass = v.it.isPass
                 local count = (isPass and "Pass : " or "Fail : ") .. tostring(isPass and v.it.pass or v.it.fail);
                 local len = #count
@@ -64,7 +64,7 @@ local function thingPrint(print,thing,DEEP,printTable)
             end
         end
         for i,v in ipairs(printTable) do
-            if i ~= 1 and i ~= #printTable then
+            if i ~= 1 and i ~= #printTable and type(v) == "table" then
                 print(v.text:format(
                     string.rep("\32",longestCountTextLen - v.len),
                     (tostring(v.it.time) .. "s")

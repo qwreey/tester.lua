@@ -59,7 +59,7 @@ function module:init(private)
         }; -- make new test thing
         private.nowThing = thisThing; -- set nowThing to this thing
         (lastThing and lastThing.__children__ or status)[
-            lastThing and (#lastThing + 1) or testThingName] = thisThing; -- set parent of this thing
+            lastThing and (#lastThing.__children__ + 1) or testThingName] = thisThing; -- set parent of this thing
 
         -- run test func
         local pass,errmsg = pcall(runFunc); -- run test
@@ -75,8 +75,12 @@ function module:init(private)
         end
 
         -- print thing status
-        if not lastThing then
-            thingPrint(private.print,thisThing)
+        if lastThing then
+            lastThing.__thing__.isPass = lastThing.__thing__.isPass and thisThing.__thing__.isPass;
+            lastThing.__thing__.itPass = lastThing.__thing__.itPass + thisThing.__thing__.itPass;
+            lastThing.__thing__.itFail = lastThing.__thing__.itFail + thisThing.__thing__.itFail;
+        else
+            thingPrint(private.print,thisThing);
         end
 
         -- reset
