@@ -43,8 +43,8 @@ function module:init(private)
         print("-------------------Test End!-------------------");
 
         -- drow total thing per
-        local totalThingPass = private.totalThingFail;
-        local totalThingFail = private.totalThingPass;
+        local totalThingPass = private.totalThingPass;
+        local totalThingFail = private.totalThingFail;
 
         local totalThingPer = getPer(
             totalThingFail + totalThingPass,totalThingPass
@@ -71,7 +71,6 @@ function module:init(private)
         print(("Total it pass : %d"):format(totalItPass));
         print(("Total it fail : %d"):format(totalItFail));
         print("-----------------------------------------------");
-
     end
 end
 

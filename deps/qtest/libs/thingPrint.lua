@@ -35,6 +35,7 @@ local function printLineFromFile(print,pos,maxpos,file,highlight)
 end
 
 local function thingPrint(print,thing,DEEP,printTable,private)
+    local waitForEnter = private.waitForEnter;
     DEEP = DEEP or 0; -- deep of this function loop
     printTable = printTable or {debugInfos = {},longest = 0}; -- if print table is not exist, make one
 
@@ -81,9 +82,13 @@ local function thingPrint(print,thing,DEEP,printTable,private)
         );
         table.insert(printTable,"");
         local longestCountTextLen = 0;
+        local thingPass = true;
         for i,v in ipairs(printTable) do -- format 1
             if i ~= 1 and i ~= #printTable and type(v) == "table" then
                 local isPass = v.it.isPass
+                if not isPass then
+                    thingPass = false;
+                end
                 local count = (isPass and "Pass : " or "Fail : ") .. tostring(isPass and v.it.pass or v.it.fail);
                 local len = #count
                 longestCountTextLen = (longestCountTextLen < len)
@@ -105,44 +110,46 @@ local function thingPrint(print,thing,DEEP,printTable,private)
                 print(v);
             end
         end
-        for _,debugInfos in ipairs(printTable.debugInfos) do -- print debugInfos
-            if #debugInfos ~= 0 then
-                print(("--- Failed on %s : %s"):format(debugInfos.thingName,debugInfos.itName));
-            end
-            for _,debugInfo in ipairs(debugInfos) do
-                local source = string.sub(debugInfo.source,2,-1);
-                local file do
-                    file = private.files[source];
-                    if not file then
-                        local readFile = io.open(source,"r");
-                        if readFile then
-                            file = {};
-                            private.files[source] = file;
-                            for line in readFile:lines() do
-                                table.insert(file, line)
+        if not (thingPass or string.lower(waitForEnter("[Test failed, type 'y' for show fail point or press enter for skip ...]")) ~= "y") then
+            for _,debugInfos in ipairs(printTable.debugInfos) do -- print debugInfos
+                if #debugInfos ~= 0 then
+                    print(("--- Failed on %s : %s"):format(debugInfos.thingName,debugInfos.itName));
+                end
+                for _,debugInfo in ipairs(debugInfos) do
+                    local source = string.sub(debugInfo.source,2,-1);
+                    local file do
+                        file = private.files[source];
+                        if not file then
+                            local readFile = io.open(source,"r");
+                            if readFile then
+                                file = {};
+                                private.files[source] = file;
+                                for line in readFile:lines() do
+                                    table.insert(file, line)
+                                end
                             end
                         end
                     end
-                end
-
-                if file then
-                    local cur = debugInfo.currentline;
-                    local maxcur = cur + 2
-                    print((" |  FILE : %s"):format(source));
-                    for i = -2,2 do
-                        printLineFromFile(
-                            print,cur + i,maxcur,file,
-                            i == 0 and bgRed
+    
+                    if file then
+                        local cur = debugInfo.currentline;
+                        local maxcur = cur + 2
+                        print((" |  FILE : %s"):format(source));
+                        for i = -2,2 do
+                            printLineFromFile(
+                                print,cur + i,maxcur,file,
+                                i == 0 and bgRed
+                            );
+                        end
+                    else
+                        print(
+                            yellow("[WARN]") ..
+                            (" File %s was not found, bypassed open/debugging!")
+                                :format(debugInfo.source)
                         );
                     end
-                else
-                    print(
-                        yellow("[WARN]") ..
-                        (" File %s was not found, bypassed open/debugging!")
-                            :format(debugInfo.source)
-                    );
+                    print("");
                 end
-                print("");
             end
         end
     end

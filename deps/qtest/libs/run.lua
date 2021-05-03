@@ -6,7 +6,7 @@ function module:init(private)
 
     return function (print)
         print = print or private.print;
-        print("-----------------------------------------------");
+        print("------------------Test Start!------------------");
         print(green("Time") .. " : " .. os.date());
         print(green("TestName") .. " : " .. private.testProfile);
         print("");

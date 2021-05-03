@@ -42,12 +42,6 @@ _.thing("just a test",function ()
     _.it("asdf",function ()
         _.test.nop();
     end);
-    --[[
-    _.it("asdfasdf",function ()
-        _.test.hasError(function ()
-            error("ERROR");
-        end);
-    end);]]
 end);
 
 _.results(print);
