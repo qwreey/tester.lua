@@ -1,8 +1,11 @@
 local _ = require("qtest"):init({
     profileName = "unnamed test";
     fixPath = true;
+    output = "example/luvit.ouput";
+    disableViewCode = false;
+    print = nil;
 });
-_.run(print);
+_.run();
 
 _.thing("luvit",function ()
     _.it("has string library?",function ()
@@ -44,4 +47,4 @@ _.thing("just a test",function ()
     end);
 end);
 
-_.results(print);
+_.results();

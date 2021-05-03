@@ -22,8 +22,9 @@ function module:init(testProfile)
 
         files = {};
         global = {};
-        print = nil;
+        print = testProfile.print;
         isRunning = false;
+        disableViewCode = testProfile.disableViewCode;
         waitForEnter = require("waitForEnter"):init(io,print); -- wait for enter module
     };
     --private.logger = require("logger"):init(private);

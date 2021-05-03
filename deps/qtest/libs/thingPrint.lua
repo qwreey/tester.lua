@@ -5,6 +5,7 @@ local tab = " |  ";
 local tree = " |- ";
 local none = ""
 
+local printLineFromFile = require("printLineFromFile");
 local termColor = require("termColor");
 local bgRed = termColor.new(termColor.names.onred);
 local red = termColor.new(termColor.names.red);
@@ -14,25 +15,6 @@ local itPassText = green("[PASS]");
 local itFailText = red("[FAIL]");
 local thingPassText = green("--- Test passed! (Total it passed : %d)");
 local thingFailText = red("--- Test failed! (Total it failed : %d)");
-
-local codeViewMaxLen = 82;--47;
-local function printLineFromFile(print,pos,maxpos,file,highlight)
-    local lineTextLen = #tostring(maxpos);
-    local lineText = tostring(pos);
-    local codeText = file[pos];
-    if not codeText then
-        lineText = string.rep("\32",lineTextLen) .. "|";
-    else
-        codeText = string.gsub(codeText,"\t","\32");
-        lineText = lineText .. string.rep("\32",lineTextLen - #lineText) .. "| ";
-        local codeLen = codeViewMaxLen - (lineTextLen + 2);
-        lineText = lineText .. string.sub(codeText,1,codeLen);
-        if highlight then
-            lineText = highlight(lineText);
-        end
-    end
-    print(lineText);
-end
 
 local function thingPrint(print,thing,DEEP,printTable,private)
     local waitForEnter = private.waitForEnter;
@@ -110,7 +92,9 @@ local function thingPrint(print,thing,DEEP,printTable,private)
                 print(v);
             end
         end
-        if not (thingPass or string.lower(waitForEnter("[Test failed, type 'y' for show fail point or press enter for skip ...]")) ~= "y") then
+        if not (private.disableViewCode or thingPass or string.lower(waitForEnter("[Test failed, type 'y' for show fail point of code or press enter for skip ...]")) ~= "y") then
+            print("------------------Fail Points------------------");
+            print("");
             for _,debugInfos in ipairs(printTable.debugInfos) do -- print debugInfos
                 if #debugInfos ~= 0 then
                     print(("--- Failed on %s : %s"):format(debugInfos.thingName,debugInfos.itName));
@@ -151,6 +135,8 @@ local function thingPrint(print,thing,DEEP,printTable,private)
                     print("");
                 end
             end
+            print("-----------------------------------------------");
+            print("");
         end
     end
 end
