@@ -6,6 +6,7 @@ local tree = " |- ";
 local none = ""
 
 local termColor = require("termColor");
+local bgRed = termColor.new(termColor.names.onred);
 local red = termColor.new(termColor.names.red);
 local green = termColor.new(termColor.names.green);
 local yellow = termColor.new(termColor.names.yellow);
@@ -14,30 +15,37 @@ local itFailText = red("[FAIL]");
 local thingPassText = green("--- Test passed! (Total it passed : %d)");
 local thingFailText = red("--- Test failed! (Total it failed : %d)");
 
-local codeViewMaxLen = 47;
-local function printLineFromFile(print,pos,maxpos,file)
+local codeViewMaxLen = 82;--47;
+local function printLineFromFile(print,pos,maxpos,file,highlight)
     local lineTextLen = #tostring(maxpos);
     local lineText = tostring(pos);
     local codeText = file[pos];
     if not codeText then
-        
+        lineText = string.rep("\32",lineTextLen) .. "|";
+    else
+        codeText = string.gsub(codeText,"\t","\32");
+        lineText = lineText .. string.rep("\32",lineTextLen - #lineText) .. "| ";
+        local codeLen = codeViewMaxLen - (lineTextLen + 2);
+        lineText = lineText .. string.sub(codeText,1,codeLen);
+        if highlight then
+            lineText = highlight(lineText);
+        end
     end
-    lineText = lineText .. string.rep("\32",lineTextLen - #lineText) .. "| ";
-    local codeLen = codeViewMaxLen - (lineTextLen + 2);
-    
+    print(lineText);
 end
 
-local function thingPrint(print,thing,DEEP,printTable)
-    DEEP = DEEP or 0;
-    printTable = printTable or {debugInfos = {},longest = 0};
-    -- thing print
-    table.insert(printTable,
+local function thingPrint(print,thing,DEEP,printTable,private)
+    DEEP = DEEP or 0; -- deep of this function loop
+    printTable = printTable or {debugInfos = {},longest = 0}; -- if print table is not exist, make one
+
+    table.insert(printTable, -- render now thing header (Thing : 'luvit')
         thingText:format(string.rep(tab,DEEP-1) .. (DEEP == 0 and none or tree),thing.__thing__.name)
     );
 
-    -- item
-    for _,it in ipairs(thing) do
-        table.insert(printTable.debugInfos,it.debugInfos);
+    for _,it in ipairs(thing) do -- loop for it items
+        table.insert(printTable.debugInfos,it.debugInfos); -- add debuginfo for debug files
+
+        -- render it item ( |- [PASS] has string library? | Pass : 1 | 0s)
         local new = {
             type = "itItem";
             text = itText:format(
@@ -52,18 +60,20 @@ local function thingPrint(print,thing,DEEP,printTable)
         if printTable.longest < len then
             printTable.longest = len;
         end
-
         table.insert(printTable,new);
 
+        -- render msg ( |- [MSG Line : 32] test say)
         for _,text in pairs(it.say) do
             table.insert(printTable,itMsg:format(string.rep(tab,DEEP+1) .. tree,text));
         end
     end
 
-    for _,childThing in ipairs(thing.__children__) do
-        thingPrint(print,childThing,DEEP + 1,printTable);
+    -- render child
+    for _,childThing in ipairs(thing.__children__) do -- loop for child things
+        thingPrint(print,childThing,DEEP + 1,printTable,private); -- recursion for thing (child)
     end
 
+    -- last redner
     if DEEP == 0 then -- print all
         table.insert(printTable,thing.__thing__.isPass and
             (thingPassText:format(thing.__thing__.itPass)) or
@@ -100,20 +110,37 @@ local function thingPrint(print,thing,DEEP,printTable)
                 print(("--- Failed on %s : %s"):format(debugInfos.thingName,debugInfos.itName));
             end
             for _,debugInfo in ipairs(debugInfos) do
-                local file = io.open(debugInfo.source,"r");
+                local source = string.sub(debugInfo.source,2,-1);
+                local file do
+                    file = private.files[source];
+                    if not file then
+                        local readFile = io.open(source,"r");
+                        if readFile then
+                            file = {};
+                            private.files[source] = file;
+                            for line in readFile:lines() do
+                                table.insert(file, line)
+                            end
+                        end
+                    end
+                end
+
                 if file then
                     local cur = debugInfo.currentline;
                     local maxcur = cur + 2
-                    local fileT = {};
-                    for line in file:lines() do
-                        table.insert(fileT, line)
-                    end
-                    file:close()
+                    print((" |  FILE : %s"):format(source));
                     for i = -2,2 do
-                        printLineFromFile(print,cur + i,maxcur,fileT);
+                        printLineFromFile(
+                            print,cur + i,maxcur,file,
+                            i == 0 and bgRed
+                        );
                     end
                 else
-                    print(yellow("[WARN]") .. " File %s was not found, bypassed open/debugging!");
+                    print(
+                        yellow("[WARN]") ..
+                        (" File %s was not found, bypassed open/debugging!")
+                            :format(debugInfo.source)
+                    );
                 end
                 print("");
             end

@@ -90,7 +90,7 @@ function module:init(private)
             -- print thing status
             private.totalItPass = private.totalItPass + thisThing.__thing__.itPass;
             private.totalItFail = private.totalItFail + thisThing.__thing__.itFail;
-            thingPrint(private.print,thisThing);
+            thingPrint(private.print,thisThing,nil,nil,private);
         end
 
         -- reset
