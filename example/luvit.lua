@@ -1,7 +1,6 @@
 local _ = require("qtest"):init({
     profileName = "unnamed test";
     fixPath = true;
-    output = "example/luvit.ouput";
     disableViewCode = false;
     print = nil;
 });
