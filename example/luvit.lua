@@ -1,4 +1,4 @@
-local _ = require("qtest"):init({
+local _ = require("QuaTest"):init({
     profileName = "unnamed test";
     fixPath = true;
     disableViewCode = false;
