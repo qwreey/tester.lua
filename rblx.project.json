@@ -1,0 +1,15 @@
+{
+	"name": "ROJO_RBX",
+	"tree": {
+		"$className": "DataModel",
+		"ReplicatedStorage": {
+			"$className": "ReplicatedStorage",
+			"rojo": {
+				"$className": "Folder",
+				"QuaTest": {
+					"$path": "init"
+				}
+			}
+		}
+	}
+}
