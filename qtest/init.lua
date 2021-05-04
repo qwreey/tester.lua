@@ -7,7 +7,7 @@ local module = {};
 
 function module:init(testProfile)
     if testProfile.fixPath then
-        package.path = package.path .. ".\\deps\\?.lua;.\\deps\\?\\init.lua;.\\deps\\qtest\\libs\\?.lua";
+        package.path = package.path .. ".\\deps\\?.lua;.\\deps\\?\\init.lua;.\\deps\\qtest\\libs\\?.lua;.\\qtest\\libs\\?.lua;";
     end
 
     local private = {
