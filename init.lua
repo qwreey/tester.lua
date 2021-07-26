@@ -20,6 +20,7 @@ function module:init(testProfile)
         totalThingFail = 0; -- total thing fail
         totalThingPass = 0; -- total thing pass
 
+	--returnCode = 0;
         files = {};
         global = {};
         print = testProfile.print;
@@ -30,6 +31,12 @@ function module:init(testProfile)
     --private.logger = require("logger"):init(private);
 
     return {
+	getReturn = function()
+		if private.totalItFail ~= 0 then
+			return 1;
+		end
+		--return private.returnCode;
+	end;
         global = private.global;
         waitForEnter = private.waitForEnter;
 

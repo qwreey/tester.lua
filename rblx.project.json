@@ -7,7 +7,7 @@
 			"rojo": {
 				"$className": "Folder",
 				"QuaTest": {
-					"$path": "init"
+					"$path": "./"
 				}
 			}
 		}

@@ -47,3 +47,4 @@ _.thing("just a test",function ()
 end);
 
 _.results();
+os.exit(_.returncode);
