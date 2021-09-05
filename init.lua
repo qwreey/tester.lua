@@ -6,8 +6,17 @@
 local module = {};
 
 function module:init(testProfile)
-    if testProfile.fixPath then
-        package.path = package.path .. ".\\deps\\?.lua;.\\deps\\?\\init.lua;.\\deps\\QuaTest\\libs\\?.lua;.\\QuaTest\\libs\\?.lua;";
+    -- set finding path
+    if testProfile.fixPath and package then
+        package.path = package.path .. (
+            package.config:sub(1,1) == "\\" and
+            ".\\deps\\?.lua;.\\deps\\?\\init.lua;.\\deps\\QuaTest\\libs\\?.lua;.\\QuaTest\\libs\\?.lua;" or
+            "./deps/?.lua;./deps/?/init.lua;/deps/QuaTest/libs/?.lua;./QuaTest/libs/?.lua;"
+        );
+    end
+    -- require (for roblox's require system)
+    if script then
+        require = require(script.Parent.require) or require;
     end
 
     local private = {
@@ -27,6 +36,8 @@ function module:init(testProfile)
         isRunning = false;
         disableViewCode = testProfile.disableViewCode;
         waitForEnter = require("waitForEnter"):init(io,print); -- wait for enter module
+        termColor = require("termColor");
+        require = require;
     };
     --private.logger = require("logger"):init(private);
 

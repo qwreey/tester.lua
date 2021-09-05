@@ -4,7 +4,7 @@ local clock = os.clock;
 function module:init(private)
     local status = private.status;
     local waitForEnter = private.waitForEnter;
-    local termColor = require("termColor");
+    local termColor = private.termColor;
     local red = termColor.new(termColor.names.red);
 
     local function typeCheck(itName,testFunc)
