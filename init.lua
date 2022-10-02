@@ -41,7 +41,7 @@ function module:init(testProfile)
     };
     --private.logger = require("logger"):init(private);
 
-    return {
+    local result = {
 	getReturn = function()
 		if private.totalItFail ~= 0 then
 			return 1;
@@ -57,9 +57,14 @@ function module:init(testProfile)
 
         test = (require("test"):init(private));
         results = (require("results"):init(private));
-		
-	env = (require("env"):init(private));
     };
+    local env = (require("env"):init(private));
+    result.env = env;
+
+    if testProfile.func then
+        env(testProfile.func)
+    end
+    return result;
 end
 
 return module;
