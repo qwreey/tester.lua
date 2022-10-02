@@ -37,10 +37,10 @@ function module:init(private)
 
         if not private.isRunning then
             private.print(red("[ERROR]" .. " test is not running!"));
-            waitForEnter();
+            --waitForEnter();
         elseif not nowIt then
             private.print(red("[ERROR]" .. " it is not exist!"));
-            waitForEnter();
+            --waitForEnter();
         end
 
         if isPass then
