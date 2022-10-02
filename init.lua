@@ -32,7 +32,7 @@ function module.init(testProfile)
 	--returnCode = 0;
         files = {};
         global = {};
-        print = testProfile.print;
+        print = testProfile.print or print;
         isRunning = false;
         disableViewCode = testProfile.disableViewCode;
         waitForEnter = require("waitForEnter"):init(io,print); -- wait for enter module
