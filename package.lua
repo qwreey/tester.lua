@@ -6,7 +6,7 @@ return {
   tags = { "lua", "luvit" },
   license = "MIT",
   author = { name = "qwreey", email = "qwreey75@gmail.com" },
-  homepage = "https://github.com/qwreey75/QuaTest",
+  homepage = "https://github.com/qwreey75/tester.lua",
   dependencies = {},
   files = {
     "**.lua",
