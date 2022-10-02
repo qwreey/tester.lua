@@ -58,7 +58,7 @@ function module.init(testProfile)
         test = (require("test"):init(private));
         results = (require("results"):init(private));
     };
-    local env = (require("makeenv"):init(private));
+    local env = (require("makeEnv"):init(private));
     result.env = env;
 
     if testProfile.func then
