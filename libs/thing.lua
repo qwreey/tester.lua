@@ -71,7 +71,7 @@ function module:init(private)
             private.print(red("[ERROR] ") .. errmsg);
             private.print(red("[ERROR]") .. (" run error occur on testing thing '%s' ... continue?")
                 :format(testThingName));
-            waitForEnter();
+            --waitForEnter();
         end
 
         -- set total thing pass/fail
