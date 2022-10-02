@@ -53,8 +53,8 @@ function module:init(private)
         print(("%s : %s"):format(
             totalThingPerStr,drowPerBar(totalThingPer)
         ));
-        print(("Total thing pass : %d"):format(totalThingPass));
-        print(("Total thing fail : %d"):format(totalThingFail));
+        print(("Total context pass : %d"):format(totalThingPass));
+        print(("Total context fail : %d"):format(totalThingFail));
         print("");
 
         -- drow total it per
