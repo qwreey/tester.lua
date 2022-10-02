@@ -52,7 +52,7 @@ function module:init(testProfile)
         waitForEnter = private.waitForEnter;
 
         run = (require("run"):init(private));
-        thing = (require("thing"):init(private));
+        context = (require("thing"):init(private));
         it = (require("it"):init(private));
 
         test = (require("test"):init(private));
