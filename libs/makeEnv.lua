@@ -10,7 +10,7 @@ function module:init(private)
         env.it = self.it;
         env.results = self.results;
         env.test = self.test;
-        return func
+        return func;
     end;
 end
 
