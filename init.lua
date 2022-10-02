@@ -57,6 +57,8 @@ function module:init(testProfile)
 
         test = (require("test"):init(private));
         results = (require("results"):init(private));
+		
+	env = (require("env"):init(private));
     };
 end
 
