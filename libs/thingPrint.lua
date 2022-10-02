@@ -1,4 +1,4 @@
-local thingText = "%sThing '%s'";
+local thingText = "%sContext '%s'";
 local itText = "%s%%s %s%%%%s | %%%%s%%%%%%%%s | %%%%%%%%s";
 local itMsg = "%s%s"
 local tab = " |  ";
