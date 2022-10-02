@@ -23,7 +23,7 @@ function module:init(private)
     local function typeCheck(testThing,runFunc)
         if not private.isRunning then
             (private.print or print)(red("[WARN]") .. " Test is not running! qtest.run(print); first for run test!");
-            waitForEnter();
+            --waitForEnter();
         end
 
         local typeTestThing = type(testThing);
