@@ -62,7 +62,7 @@ function module.init(testProfile)
     result.env = env;
 
     if testProfile.func then
-        env(testProfile.func)
+        env(result,testProfile.func)
     end
     return result;
 end
