@@ -62,7 +62,9 @@ function module.init(testProfile)
     result.env = env;
 
     if testProfile.func then
-        env(result,testProfile.func)
+        result.run()
+        env(result,testProfile.func)()
+        result.results()
     end
     return result;
 end
