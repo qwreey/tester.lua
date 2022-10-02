@@ -5,7 +5,7 @@
 
 local module = {};
 
-function module:init(testProfile)
+function module.init(testProfile)
     -- set finding path
     if testProfile.fixPath and package then
         package.path = package.path .. (
