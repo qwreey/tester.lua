@@ -92,7 +92,7 @@ local function thingPrint(print,thing,DEEP,printTable,private)
                 print(v);
             end
         end
-        if true then--if not (private.disableViewCode or thingPass or string.lower(waitForEnter("[Test failed, type 'y' for show fail point of code or press enter for skip ...]")) ~= "y") then
+        if not (private.disableViewCode or thingPass) then --if not (private.disableViewCode or thingPass or string.lower(waitForEnter("[Test failed, type 'y' for show fail point of code or press enter for skip ...]")) ~= "y") then
             print("------------------Fail Points------------------");
             print("");
             for _,debugInfos in ipairs(printTable.debugInfos) do -- print debugInfos
