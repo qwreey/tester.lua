@@ -10,22 +10,22 @@ function module:init(private)
     local function typeCheck(itName,testFunc)
         if not private.isRunning then
             (private.print or print)(red("[WARN]") .. " Test is not running! qtest.run(print); first for run test!");
-            waitForEnter();
+            --waitForEnter();
         end
 
         if not private.nowThing then
             private.print("lastThing is not exist! qtest.thing(testname,func); for run it test!");
-            waitForEnter();
+            --waitForEnter();
         end
 
         if string.sub(itName,1,2) == "__" then
             private.print("It name cannot be starting with '__'!");
-            waitForEnter();
+            --waitForEnter();
         end
 
         if private.nowIt then
             private.print("you cannot run it function on it is running! continue?");
-            waitForEnter();
+            --waitForEnter();
         end
     end
 
@@ -47,7 +47,7 @@ function module:init(private)
         if not pass then
             private.print(red("[ERROR] ") .. errmsg);
             private.print(red("[ERROR]") .. (" run error occur on testing it '%s' ... continue?"):format(itName));
-            waitForEnter();
+            --waitForEnter();
         end
         local ed = clock();
         nowIt.time = math.floor((ed - st)*10000)/10000;
